@@ -1,9 +1,9 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QLCDNumber
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QLCDNumber, QMessageBox
 from PyQt5.QtGui import QIcon
 from PyQt5 import uic
-from PyQt5.QtCore import QSize, QTime, QTimer
-from datetime import date, datetime, timedelta
+from PyQt5.QtCore import QSize, QTimer
+from datetime import datetime
 
 
 class Chess(QWidget):
@@ -75,6 +75,9 @@ class Chess(QWidget):
         self.setWindowIcon(QIcon('../images/chessIcon.png'))
         self.setFixedHeight(600)
         self.setFixedWidth(600)
+
+        
+
         # '0' is white and '1' is black
         self.pieces = list()
         for i in range(0, 8):
@@ -100,6 +103,29 @@ class Chess(QWidget):
         self.score.setGeometry(270, 0, 250, 30)
         uic.loadUi('test.ui', self)
         self.scoreCount = [0, 0]  # first for white second for black
+
+        self.help_btn = QPushButton("HELP",self)
+        self.help_btn.setGeometry(510,570,75,23)
+        self.help_btn.clicked.connect(self.help_)
+
+    def help_(self):
+        print("yes")
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+
+        msg.setText("Some Documentation")
+        msg.setInformativeText("""
+This is a programm written on Python, which enables play by two players on the same computer. All possible rules of the game are being developed, including:
+
+When choosing a piece, shows its possible moves positions, taking into account whether chess opens its own to the king, or whether it is possible to go to that position at a given moment in the game or not.
+Have a section showing the current game results.
+Counts the time spent by each player.
+Showing the out-of-play stones.
+  """)
+        msg.setWindowTitle("Chess Game")
+        
+        msg.setStandardButtons(QMessageBox.Ok)
+        retval = msg.exec_() 
 
     def whiteLcdFunc(self):
         if self.turn == '0':
